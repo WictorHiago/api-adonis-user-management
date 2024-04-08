@@ -7,7 +7,6 @@
 |
 */
 
-import DashboardController from '#controllers/dashboard_controller'
 import User from '#models/user'
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
@@ -26,31 +25,23 @@ router.post('/users', async ({ request }) => {
   return user
 })
 
-router.post('/users/:id/tokens', async ({ params }) => {
-  // const user = await User.findByOrFail(params.id)
-  const user = await User.findByOrFail('id', params.id)
+// router.post('/users/:id/tokens', async ({ params }) => {
+//   // const user = await User.findByOrFail(params.id)
+//   const user = await User.findByOrFail('id', params.id)
 
-  const token = await User.accessTokens.create(user)
+//   const token = await User.accessTokens.create(user)
 
-  return {
-    type: 'bearer',
-    token: token.value!.release(),
-  }
-})
+//   return {
+//     type: 'bearer',
+//     token: token.value!.release(),
+//   }
+// })
 
-router
-  .group(() => {
-    router.get('/dashboard', async () => {
-      return await User.all()
-    })
-  })
-  .prefix('/api')
-
-router.get('/dashboard', [DashboardController, 'index']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
+// router.get('/dashboard', [DashboardController, 'index']).use(
+//   middleware.auth({
+//     guards: ['api'],
+//   })
+// )
 
 router.post('/post/add', [PostsController, 'store']).use(
   middleware.auth({
