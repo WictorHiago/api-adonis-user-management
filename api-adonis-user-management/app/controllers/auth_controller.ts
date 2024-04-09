@@ -7,32 +7,25 @@ export default class AuthController {
     const { email, password } = request.body()
 
     try {
-      if (!email || !password) {
-        return 'Email and password are required'
+      const userExist = await User.findBy('email', email)
+      if (!userExist) {
+        return response.status(400).send({ message: 'Email or Password is invalid' })
       }
 
-      const user = await User.findBy('email', email)
-
-      if (!user) {
-        return 'User not found'
-      }
-
-      const isPasswordValid = await hash.verify(user.password, password)
+      const isPasswordValid = await hash.verify(userExist.password, password)
 
       if (!isPasswordValid) {
         return response.status(400).send({ message: 'Email or Password is invalid' })
       }
 
-      await User.findByOrFail('id', user.id)
+      const user = await User.findByOrFail('id', userExist.id)
       const token = await User.accessTokens.create(user)
 
-      if (token instanceof Error) {
-        return response.status(400).send({ message: token.message })
-      }
-
-      return response.status(201).json({ token })
-    } catch (error: any) {
-      return response.status(400).send({ message: error.message })
+      return response
+        .status(200)
+        .json({ authorized: 'Success', token: `Bearer ${token.value?.release()}` })
+    } catch (error) {
+      return response.badRequest(error)
     }
   }
 }
