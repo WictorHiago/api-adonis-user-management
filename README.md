@@ -30,9 +30,9 @@ Below I will make the repository link for other services available.
 
 </p>
 
-<u><a href="https://github.com/WictorHiago/api-adonis-products" target="blank">Repository: Product manager services api</a></u>
+<u><a href="https://github.com/WictorHiago/api-adonis-products" target="_blank">Repository: Product manager services api</a></u>
 <br>
-<u><a href="#" target="blank">Repository: Queue Rabbitmq services</a></u>
+<u><a href="#" target="_blank">Repository: Queue Rabbitmq services</a></u>
 
 ## Install
 
