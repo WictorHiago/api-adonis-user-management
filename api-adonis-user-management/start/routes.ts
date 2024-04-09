@@ -35,7 +35,9 @@ router
     router.get('/users', [FindallUsersController, 'handle'])
     router.get('/users/:id', [FindByIdController, 'handle'])
     router.get('/users/email/:id', [FindbyEmailController, 'handle'])
-    router.put('/users/update/:id', [UpdateUsersController, 'handle'])
+    router
+      .put('/users/update/:id', [UpdateUsersController, 'handle'])
+      .use(middleware.auth({ guards: ['api'] }))
     router.delete('/users/delete/:id', [DeleteUserController, 'handle'])
   })
   .prefix('/api/v1')
