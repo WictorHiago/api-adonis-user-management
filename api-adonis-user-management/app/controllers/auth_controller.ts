@@ -35,10 +35,4 @@ export default class AuthController {
       return response.status(400).send({ message: error.message })
     }
   }
-
-  public async logout({ response }: HttpContext) {
-    return response.status(201).json({
-      message: 'Logout successfully',
-    })
-  }
 }

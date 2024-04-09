@@ -4,7 +4,7 @@ import { inject } from '@adonisjs/core'
 import User from '#models/user'
 
 @inject()
-export default class UsersController {
+export default class CreateUserController {
   constructor(private createUserService: CreateUserService) {}
 
   public async handle({ request, response }: HttpContext) {
@@ -21,10 +21,13 @@ export default class UsersController {
         return response.status(400).send({ message: user.message })
       }
 
-      //   const userExist = await User.findByOrFail('id', user.id)
       const token = await User.accessTokens.create(user)
+      const token_user = {
+        type: 'Bearer',
+        value: token.value!.release(),
+      }
 
-      return response.status(201).json({ created: user, token })
+      return response.status(201).json({ created: user, token: token_user })
     } catch (error: any) {
       return response.badRequest({ error: error.message })
     }
